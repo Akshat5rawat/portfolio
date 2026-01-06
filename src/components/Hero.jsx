@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import './Hero.css';
+import profilePic from '../assets/profile.jpg';
 
 const Hero = () => {
     const canvasRef = useRef(null);
@@ -36,7 +37,7 @@ const Hero = () => {
             }
 
             draw() {
-                ctx.fillStyle = `rgba(138, 99, 255, ${this.opacity})`;
+                ctx.fillStyle = `rgba(66, 100, 255, ${this.opacity})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -63,7 +64,7 @@ const Hero = () => {
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
                     if (distance < 150) {
-                        ctx.strokeStyle = `rgba(138, 99, 255, ${0.2 * (1 - distance / 150)})`;
+                        ctx.strokeStyle = `rgba(66, 100, 255, ${0.2 * (1 - distance / 150)})`;
                         ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(a.x, a.y);
@@ -124,7 +125,7 @@ const Hero = () => {
                         </button>
                         <button className="btn btn-secondary" onClick={scrollToProjects}>
                             View Projects
-                        </button>   
+                        </button>
                     </div>
                     <div className="hero-social animate-fadeInUp" style={{ animationDelay: '0.5s' }}>
                         <a href="https://github.com/Akshat5rawat" target="_blank" rel="noopener noreferrer" className="social-link">
@@ -148,15 +149,7 @@ const Hero = () => {
                     <div className="image-wrapper">
                         <div className="image-glow"></div>
                         <div className="profile-image">
-                            <svg viewBox="0 0 200 200" fill="none">
-                                <circle cx="100" cy="100" r="90" fill="url(#gradient1)" />
-                                <defs>
-                                    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="var(--primary)" />
-                                        <stop offset="100%" stopColor="var(--accent)" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
+                            <img src={profilePic} alt="Akshat Rawat" />
                         </div>
                     </div>
                 </div>

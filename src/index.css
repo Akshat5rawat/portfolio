@@ -1,34 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Color Palette - Modern & Premium */
-  --primary-hue: 260;
-  --secondary-hue: 200;
-  
-  --bg-dark: hsl(240, 15%, 8%);
-  --bg-darker: hsl(240, 18%, 5%);
-  --bg-card: hsl(240, 12%, 12%);
-  --bg-card-hover: hsl(240, 12%, 15%);
-  
-  --primary: hsl(var(--primary-hue), 85%, 65%);
-  --primary-light: hsl(var(--primary-hue), 85%, 75%);
-  --primary-dark: hsl(var(--primary-hue), 85%, 55%);
-  --primary-glow: hsla(var(--primary-hue), 85%, 65%, 0.3);
-  
+  /* Color Palette - Midnight Pro */
+  --primary-hue: 225;
+  /* Deep Blue */
+  --secondary-hue: 190;
+  /* Cyan */
+
+  --bg-dark: hsl(225, 15%, 8%);
+  --bg-darker: hsl(225, 18%, 5%);
+  --bg-card: hsl(225, 12%, 12%);
+  --bg-card-hover: hsl(225, 12%, 15%);
+
+  --primary: hsl(var(--primary-hue), 85%, 60%);
+  --primary-light: hsl(var(--primary-hue), 85%, 70%);
+  --primary-dark: hsl(var(--primary-hue), 85%, 50%);
+  --primary-glow: hsla(var(--primary-hue), 85%, 60%, 0.3);
+
   --secondary: hsl(var(--secondary-hue), 90%, 60%);
   --secondary-light: hsl(var(--secondary-hue), 90%, 70%);
-  
-  --accent: hsl(320, 85%, 65%);
-  --accent-glow: hsla(320, 85%, 65%, 0.3);
-  
-  --text-primary: hsl(0, 0%, 98%);
-  --text-secondary: hsl(0, 0%, 70%);
-  --text-muted: hsl(0, 0%, 50%);
-  
-  --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-  --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
-  --gradient-card: linear-gradient(135deg, var(--bg-card) 0%, hsl(240, 12%, 14%) 100%);
-  
+
+  --accent: hsl(81, 74%, 53%);
+  --accent-glow: hsla(81, 74%, 53%, 0.3);
+
+  --text-primary: hsl(220, 100%, 98%);
+  --text-secondary: hsl(220, 20%, 75%);
+  --text-muted: hsl(220, 15%, 50%);
+
+  --gradient-primary: linear-gradient(135deg, var(--primary) 0%, hsl(190, 90%, 60%) 100%);
+  --gradient-secondary: linear-gradient(135deg, hsl(190, 90%, 60%) 0%, var(--primary) 100%);
+  --gradient-card: linear-gradient(135deg, var(--bg-card) 0%, hsl(225, 12%, 14%) 100%);
+
   /* Spacing */
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
@@ -36,19 +38,19 @@
   --spacing-lg: 2rem;
   --spacing-xl: 3rem;
   --spacing-2xl: 4rem;
-  
+
   /* Border Radius */
   --radius-sm: 0.5rem;
   --radius-md: 1rem;
   --radius-lg: 1.5rem;
   --radius-xl: 2rem;
-  
+
   /* Shadows */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
   --shadow-glow: 0 0 40px var(--primary-glow);
-  
+
   /* Transitions */
   --transition-fast: 0.2s ease;
   --transition-normal: 0.3s ease;
@@ -81,7 +83,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
+  background:
     radial-gradient(circle at 20% 50%, var(--primary-glow) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, var(--accent-glow) 0%, transparent 50%),
     radial-gradient(circle at 40% 20%, hsla(var(--secondary-hue), 90%, 60%, 0.2) 0%, transparent 50%);
@@ -91,12 +93,24 @@ body::before {
 }
 
 @keyframes backgroundPulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 0.8; }
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Space Grotesk', 'Inter', sans-serif;
   font-weight: 700;
   line-height: 1.2;
@@ -278,6 +292,7 @@ p {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -288,24 +303,31 @@ p {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-20px);
   }
 }
 
 @keyframes glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 20px var(--primary-glow);
   }
+
   50% {
     box-shadow: 0 0 40px var(--primary-glow), 0 0 60px var(--primary-glow);
   }
@@ -381,7 +403,7 @@ p {
     padding: var(--spacing-xl) 0;
     min-height: auto;
   }
-  
+
   .grid-2,
   .grid-3 {
     grid-template-columns: 1fr;

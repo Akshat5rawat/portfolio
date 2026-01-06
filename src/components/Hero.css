@@ -200,9 +200,11 @@
     box-shadow: 0 0 40px var(--primary-glow);
 }
 
-.profile-image svg {
+.profile-image img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 /* Scroll Indicator */
