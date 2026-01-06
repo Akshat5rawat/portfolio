@@ -22,3 +22,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+CUSTOMIZATION.md
+PROJECT_SUMMARY.md
