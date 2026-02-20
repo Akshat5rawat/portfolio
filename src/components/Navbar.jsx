@@ -35,7 +35,7 @@ const Navbar = ({ activeSection }) => {
         <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
             <div className="container navbar-content">
                 <div className="navbar-logo">
-                    <span className="logo-text">Portfolio</span>
+                    <span className="logo-text">Akshat Rawat</span>
                     <span className="logo-dot">.</span>
                 </div>
 
