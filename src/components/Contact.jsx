@@ -1,6 +1,21 @@
 import { useState } from 'react';
 import './Contact.css';
 
+// ─── Toast Notification Component ────────────────────────────────────────────
+const Toast = ({ type, message, onClose }) => {
+    if (!message) return null;
+    return (
+        <div className={`toast toast-${type}`} role="alert">
+            <span className="toast-icon">
+                {type === 'success' ? '✅' : type === 'error' ? '❌' : '⏳'}
+            </span>
+            <span className="toast-text">{message}</span>
+            <button className="toast-close" onClick={onClose} aria-label="Close">✕</button>
+        </div>
+    );
+};
+
+// ─── Main Contact Component ───────────────────────────────────────────────────
 const Contact = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -9,7 +24,13 @@ const Contact = () => {
         message: '',
     });
 
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState('idle'); // idle | sending | success | error
+    const [toast, setToast] = useState({ type: '', message: '' });
+
+    const showToast = (type, message) => {
+        setToast({ type, message });
+        setTimeout(() => setToast({ type: '', message: '' }), 5000);
+    };
 
     const handleChange = (e) => {
         setFormData({
@@ -18,15 +39,35 @@ const Contact = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Simulate form submission
         setStatus('sending');
-        setTimeout(() => {
-            setStatus('success');
-            setFormData({ name: '', email: '', subject: '', message: '' });
-            setTimeout(() => setStatus(''), 3000);
-        }, 1500);
+        showToast('loading', 'Sending your message…');
+
+        try {
+            const response = await fetch('http://localhost:5000/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                setStatus('success');
+                setFormData({ name: '', email: '', subject: '', message: '' });
+                showToast('success', data.message || 'Message sent! I\'ll get back to you soon. 🚀');
+            } else {
+                setStatus('error');
+                showToast('error', data.message || 'Something went wrong. Please try again.');
+            }
+        } catch (err) {
+            console.error(err);
+            setStatus('error');
+            showToast('error', 'Cannot connect to server. Please try again later.');
+        } finally {
+            setTimeout(() => setStatus('idle'), 4000);
+        }
     };
 
     const contactInfo = [
@@ -52,6 +93,13 @@ const Contact = () => {
 
     return (
         <section id="contact" className="contact section">
+            {/* Toast Notification */}
+            <Toast
+                type={toast.type}
+                message={toast.message}
+                onClose={() => setToast({ type: '', message: '' })}
+            />
+
             <div className="container">
                 <h2 className="section-title">Get In Touch</h2>
                 <p className="contact-subtitle">
@@ -89,15 +137,10 @@ const Contact = () => {
                                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                                 </svg>
                             </a>
-                            {/* <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-btn">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                                </svg>
-                            </a> */}
                         </div>
                     </div>
 
-                    <form className="contact-form card" onSubmit={handleSubmit}>
+                    <form className="contact-form card" onSubmit={handleSubmit} noValidate>
                         <div className="form-group">
                             <label htmlFor="name">Name</label>
                             <input
@@ -108,6 +151,7 @@ const Contact = () => {
                                 onChange={handleChange}
                                 required
                                 placeholder="Your Name"
+                                disabled={status === 'sending'}
                             />
                         </div>
 
@@ -121,6 +165,7 @@ const Contact = () => {
                                 onChange={handleChange}
                                 required
                                 placeholder="Enter your email"
+                                disabled={status === 'sending'}
                             />
                         </div>
 
@@ -134,6 +179,7 @@ const Contact = () => {
                                 onChange={handleChange}
                                 required
                                 placeholder="What's this about?"
+                                disabled={status === 'sending'}
                             />
                         </div>
 
@@ -147,22 +193,33 @@ const Contact = () => {
                                 required
                                 rows="5"
                                 placeholder="Your message..."
+                                disabled={status === 'sending'}
                             ></textarea>
                         </div>
 
-                        <button type="submit" className="btn btn-primary submit-btn" disabled={status === 'sending'}>
-                            {status === 'sending' ? 'Sending...' : status === 'success' ? 'Sent!' : 'Send Message'}
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg>
+                        <button
+                            type="submit"
+                            id="submit-contact-btn"
+                            className={`btn btn-primary submit-btn ${status === 'success' ? 'btn-success' : ''}`}
+                            disabled={status === 'sending'}
+                        >
+                            {status === 'sending' ? (
+                                <>
+                                    <span className="spinner"></span>
+                                    Sending…
+                                </>
+                            ) : status === 'success' ? (
+                                <>✅ Sent!</>
+                            ) : (
+                                <>
+                                    Send Message
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                    </svg>
+                                </>
+                            )}
                         </button>
-
-                        {status === 'success' && (
-                            <div className="success-message">
-                                ✓ Message sent successfully! I'll get back to you soon.
-                            </div>
-                        )}
                     </form>
                 </div>
             </div>
