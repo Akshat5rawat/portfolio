@@ -10,10 +10,23 @@ const PORT = process.env.PORT || 5000;
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
 app.use(express.json());
+
+const allowedOrigins = process.env.CLIENT_ORIGIN
+    ? process.env.CLIENT_ORIGIN.split(',').map(o => o.trim())
+    : ['http://localhost:5173']; // fallback for local dev
+
 app.use(
     cors({
-        origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
-        methods: ['POST', 'GET'],
+        origin: (origin, callback) => {
+            // Allow requests with no origin (e.g. curl, Postman, server-to-server)
+            if (!origin) return callback(null, true);
+            if (allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error(`CORS blocked: ${origin}`));
+            }
+        },
+        methods: ['POST', 'GET', 'OPTIONS'],
         credentials: true,
     })
 );
