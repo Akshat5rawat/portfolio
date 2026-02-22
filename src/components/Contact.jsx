@@ -43,9 +43,10 @@ const Contact = () => {
         e.preventDefault();
         setStatus('sending');
         showToast('loading', 'Sending your message…');
-
+        const url = import.meta.env.VITE_BACKEND_URL;
+        console.log(url);
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, {
+            const response = await fetch(`${url}/api/contact`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
