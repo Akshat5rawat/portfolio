@@ -2,10 +2,10 @@ import './About.css';
 
 const About = () => {
     const stats = [
-        { number: '4th', label: 'Year Student' },
+        { number: 'CS', label: 'Undergraduate' },
         { number: '5+', label: 'Projects' },
-        { number: '6', label: 'CGPA' },
-        { number: '5+', label: 'Technologies' },
+        { number: '5+', label: 'Technologie ' },
+        { number: 'MERN', label: 'Stack' },
     ];
 
     return (

@@ -29,7 +29,7 @@ const Footer = () => {
                 <div className="footer-content">
                     <div className="footer-section">
                         <h3 className="footer-logo">
-                            Portfolio<span className="text-gradient">.</span>
+                            Akshat Rawat<span className="text-gradient">.</span>
                         </h3>
                         <p className="footer-description">
                             BTech CSE Student passionate about creating innovative solutions
